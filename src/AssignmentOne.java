@@ -1,4 +1,9 @@
+import java.util.ArrayList;
+
 public class AssignmentOne {
+
+    // Part 5 – Collection of appointments
+    static ArrayList<Appointment> appointments = new ArrayList<>();
 
     public static void main(String[] args) {
         // Part 3 – Using classes and objects
@@ -22,5 +27,50 @@ public class AssignmentOne {
 
         System.out.println("------------------------------");
 
+        // Part 5 – Collection of appointments
+        createAppointment("Alice", "0400111222", "08:00", gp1);
+        createAppointment("Bob", "0400333444", "09:30", gp2);
+        createAppointment("Charlie", "0400555666", "11:00", pt1);
+        createAppointment("Diana", "0400777888", "14:30", pt2);
+
+        printExistingAppointments();
+        cancelBooking("0400333444"); // Bob's appointment
+        System.out.println("------------------------------");
+        printExistingAppointments();
+        System.out.println("------------------------------");
+    }
+
+    public static void createAppointment(String name, String phone, String time, HealthProfessional doc) {
+        if (name == null || phone == null || time == null || doc == null) {
+            System.out.println("Error: Missing appointment details.");
+            return;
+        }
+        appointments.add(new Appointment(name, phone, time, doc));
+    }
+
+    public static void printExistingAppointments() {
+        if (appointments.isEmpty()) {
+            System.out.println("No existing appointments.");
+        } else {
+            for (Appointment appt : appointments) {
+                appt.printDetails();
+                System.out.println("------------------------------");
+            }
+        }
+    }
+
+    public static void cancelBooking(String mobilePhone) {
+        boolean removed = false;
+        for (int i = 0; i < appointments.size(); i++) {
+            if (appointments.get(i).getMobilePhone().equals(mobilePhone)) {
+                appointments.remove(i);
+                System.out.println("Appointment cancelled for mobile number: " + mobilePhone);
+                removed = true;
+                break;
+            }
+        }
+        if (!removed) {
+            System.out.println("No appointment found with mobile number: " + mobilePhone);
+        }
     }
 }
